@@ -1,0 +1,28 @@
+name: Scrape
+
+on:
+  schedule:
+    - cron: "0 13 * * *" # 9 a.m. EST (1 p.m. UTC)
+  workflow_dispatch:
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install pipenv
+      run: pipx install pipenv
+    - uses: actions/setup-python@v2
+      with:
+        python-version: '3.9'
+        cache: 'pipenv'
+    - run: pipenv install requests bs4 pandas datetime --python `which python`
+    - name: Run scraper
+      run: pipenv run python3 scraper.py
+    - name: Add and commit
+      id: add_commit
+      uses: EndBug/add-and-commit@v8
+      with:
+        committer_name: Automated
+        committer_email: actions@users.noreply.github.com
+        message: "Latest data"
