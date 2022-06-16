@@ -230,17 +230,21 @@ sfr_time = getTimestamp(sfr_url)
 condo_time = getTimestamp(condo_url)
 stock_time = getTimestamp(stock_url)
 
-rent_list = ['Rent Prices Last Updated: ', rent_time]
-sfr_list = ['Single Family Home Value Last Updated: ', sfr_time]
-condo_list = ['Condo Value Last Updated: ', condo_time]
-stock_list = ['Home Inventory Last Updated: ', stock_time]
+# make lists for the rows of the table
+rent_list = ['Rent Prices: ', rent_time]
+sfr_list = ['Single Family Home Value: ', sfr_time]
+condo_list = ['Condo Value: ', condo_time]
+stock_list = ['Home Inventory: ', stock_time]
 
+# add the headers and the rows to a giant master list 
 master = []
+master.append(['Dataset', 'Time of Last Update'])
 master.append(rent_list)
 master.append(sfr_list)
 master.append(condo_list)
 master.append(stock_list)
 
+# iterate through the master list and add rows to csv
 # open csv
 file = open('timestamps.csv', 'w')
 # make a Python CSV writer object
