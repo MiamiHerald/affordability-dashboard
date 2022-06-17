@@ -200,6 +200,7 @@ stock = stock.drop(['RegionID', 'SizeRank', 'RegionType', 'StateName'], axis=1)
 stock = clean_df(stock)
 
 stock.rename(columns={"Miami-Fort Lauderdale, FL": "Homes on the market"}, inplace=True)
+stock.rename(columns={"United States": "U.S. Homes on the market"}, inplace=True)
 
 # # calculate percentage change for soflo
 # stock['Change in homes on the market'] = stock['South Florida'].pct_change()
