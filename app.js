@@ -300,7 +300,8 @@ function eachChart(countyObj, location, key) {
 /* MAKE HTTP REQUESTS TO UPDATE CHART */
 async function updateCharts(data, chartID) {
 
-    const DW_TOKEN = 'SECRET';
+    // your datawrapper API key goes here
+    const DW_TOKEN = process.env.DW_TOKEN;
 
     /*
     'PATCH' FOR UPDATING METADATA/CHART TEXT
@@ -336,7 +337,7 @@ async function updateCharts(data, chartID) {
     }
 
     // use fetch calls to run each process of updating chart
-    // data/refresh will refresh from external data link
+    // data/refresh will refresh external data link
     await fetch(`https://api.datawrapper.de/v3/charts/${chartID}/data/refresh`, postOptions)
     .then(response => response.json())
     .then(res => console.log('POST Success'))
