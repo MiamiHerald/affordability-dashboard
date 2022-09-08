@@ -22,11 +22,11 @@ jobs:
         run: npm install node-fetch fs papaparse
         
       - name: Run app
-        run: node app.js
         with: 
           DW_TOKEN: ${{ secrets.DW_TOKEN }}
         env:
           DW_TOKEN: ${{ secrets.DW_TOKEN }}
+        run: node app.js 
 
       - name: Add and commit
         id: add_commit
