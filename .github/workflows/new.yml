@@ -16,16 +16,14 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '16.17.x'
-          cache: 'npm'
-        run: npm ci
-        run: npm test
+          cache: npm
         
       - name: Install packages
         run: npm install node-fetch fs papaparse
         
       - name: Run scraper
         run: node app.js 
-        env:
+        with:
           DW_TOKEN: ${{ secrets.DW_TOKEN }}
 
       - name: Add and commit

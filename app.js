@@ -299,7 +299,7 @@ function eachChart(countyObj, location, key) {
 async function updateCharts(data, chartID) {
 
     // your datawrapper API key goes here
-    const DW_TOKEN = process.env.DW_TOKEN;
+    const DW_TOKEN = secrets.DW_TOKEN;
 
     /*
     'PATCH' FOR UPDATING METADATA/CHART TEXT
