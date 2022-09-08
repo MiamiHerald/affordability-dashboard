@@ -1,6 +1,7 @@
 name: Update
 
-on:
+on: push
+on: 
   schedule:
     - cron: "30 16 * * *" # 12:30 p.m. EST (4:30 p.m. UTC) every day
 
