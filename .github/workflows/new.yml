@@ -7,7 +7,8 @@ on: push
 
 jobs:
   update:
-    runs-on: 'ubuntu-latest'
+    runs-on: ubuntu-latest
+    environment: token-access
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -19,15 +20,12 @@ jobs:
           cache: npm
         
       - name: Install packages
-        run: npm install node-fetch fs papaparse @actions/core
-        
-      - name: Assign token
-        uses: ./
-        with:
-          DW_TOKEN: ${{ secrets.DW_TOKEN }}
+        run: npm install node-fetch fs papaparse
 
       - name: Run scraper
-        run: node app.js 
+        run: node app.js
+        env:
+          DW_TOKEN: ${{ secrets.DW_TOKEN }}
         
 
       - name: Add and commit

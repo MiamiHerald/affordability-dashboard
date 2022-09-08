@@ -1,7 +1,6 @@
 import fetch from 'node-fetch';
 import fs from 'fs';
 import Papa from 'papaparse';
-import * as core from '@actions/core';
 
 /* 
 LOCATIONS TO CREATE FILES AND UPDATE CHARTS
@@ -300,7 +299,7 @@ function eachChart(countyObj, location, key) {
 async function updateCharts(data, chartID) {
 
     // your datawrapper API key goes here
-    const DW_TOKEN = core.getInput('DW_TOKEN');
+    const DW_TOKEN = process.env.DW_TOKEN;
 
     /*
     'PATCH' FOR UPDATING METADATA/CHART TEXT
