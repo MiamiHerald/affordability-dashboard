@@ -16,7 +16,9 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '16.17.x'
-          cache: npm
+          cache: 'npm'
+        run: npm ci
+        run: npm test
         
       - name: Install packages
         run: npm install node-fetch fs papaparse

@@ -1,7 +1,5 @@
 import fetch from 'node-fetch';
-import fs, {
-    writeFile
-} from 'fs';
+import fs from 'fs';
 import Papa from 'papaparse';
 
 /* 
