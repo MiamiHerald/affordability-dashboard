@@ -17,13 +17,13 @@ jobs:
         with:
           node-version: '16.17.x'
           cache: npm
+          DW_TOKEN: ${{ secrets.DW_TOKEN }}
+
         
       - name: Install packages
-        run: npm install node-fetch fs papaparse
+        run: npm install node-fetch fs papaparse @actions/core
         
       - name: Run scraper
-        with:
-          DW_TOKEN: ${{ secrets.DW_TOKEN }}
         run: node app.js 
 
       - name: Add and commit
