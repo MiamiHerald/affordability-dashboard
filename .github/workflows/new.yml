@@ -19,11 +19,9 @@ jobs:
           cache: npm
         
       - name: Install packages
-        run: npm install 'node-fetch'
-        run: npm install 'fs'
-        run: npm install 'papaparse' 
+        run: npm install node-fetch fs papaparse
         
-      - name: Scrape
+      - name: Run app
         run: node app.js
         with: 
           DW_TOKEN: ${{ secrets.DW_TOKEN }}
