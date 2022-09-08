@@ -5,34 +5,34 @@ on:
     - cron: "30 16 * * *" # 12:30 p.m. EST (4:30 p.m. UTC) every day
 
 jobs:
-  scrape:
-  runs-on: 'ubuntu-latest'
-  steps:
-    - name: Checkout
-      uses: actions/checkout@v3
+  update:
+    runs-on: 'ubuntu-latest'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
 
-    - name: Set up node
-      uses: actions/setup-node@v3
-      with:
-        node-version: '16.17.x'
-        cache: npm
-      
-    - name: Install packages
-      run: npm install 'node-fetch'
-      run: npm install 'fs'
-      run: npm install 'papaparse' 
-      
-    - name: Scrape
-      run: node app.js
-      with: 
-        DW_TOKEN: ${{ secrets.DW_TOKEN }}
-      env:
-        DW_TOKEN: ${{ secrets.DW_TOKEN }}
+      - name: Set up node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16.17.x'
+          cache: npm
+        
+      - name: Install packages
+        run: npm install 'node-fetch'
+        run: npm install 'fs'
+        run: npm install 'papaparse' 
+        
+      - name: Scrape
+        run: node app.js
+        with: 
+          DW_TOKEN: ${{ secrets.DW_TOKEN }}
+        env:
+          DW_TOKEN: ${{ secrets.DW_TOKEN }}
 
-    - name: Add and commit
-      id: add_commit
-      uses: EndBug/add-and-commit@v9
-      with:
-        message: 'update csv data and chart metadata'
-        committer_name: Automated
-        committer_email: ccox@mcclatchydc.com
+      - name: Add and commit
+        id: add_commit
+        uses: EndBug/add-and-commit@v9
+        with:
+          message: 'update csv data and chart metadata'
+          committer_name: Automated
+          committer_email: ccox@mcclatchydc.com
