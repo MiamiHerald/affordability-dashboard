@@ -29,9 +29,10 @@ jobs:
         
 
       - name: Add and commit
-        id: add_commit
-        uses: EndBug/add-and-commit@v9
-        with:
-          message: 'update csv data and chart metadata'
-          committer_name: Automated
-          committer_email: ccox@mcclatchydc.com
+        run: |
+          git config user.email "action@github.com"
+          git config user.name "Github Actions"
+          git add --all
+          git commit -m "Update data"
+          git pull --rebase origin main
+          git push
