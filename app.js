@@ -92,7 +92,7 @@ function filesAndCharts(countyObj, location) {
 
     // create new subfolder in 'csvs/' if one does not already exist for location
     if (!fs.existsSync(location.fileID)) {
-        fs.mkdir(`../csvs/${location.fileID}`, (err) => {
+        fs.mkdir(`./csvs/${location.fileID}`, (err) => {
             if (err) return err;
         })
     }
@@ -110,7 +110,7 @@ function filesAndCharts(countyObj, location) {
             });
 
             // write csv
-            fs.writeFile(`../csvs/${location.fileID}/${location.fileID}-${key}.csv`, unparsed, (err) => {
+            fs.writeFile(`./csvs/${location.fileID}/${location.fileID}-${key}.csv`, unparsed, (err) => {
                 if (err) {
                     console.log(err)
                 } else {
