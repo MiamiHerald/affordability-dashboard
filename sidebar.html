@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+
+<!-- button navigation code adapted from W3Schools "How to Create Tabs" walkthrough -->
+
+<head>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&family=Noto+Serif&display=swap" rel="stylesheet">
+  <base target="_top">
+  <style>
+    * {
+      font-family: 'Noto Sans', sans-serif;
+    }
+
+    h1 {
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    h2 {
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    p,
+    li {
+      font-size: 12px;
+      font-weight: 425;
+    }
+
+    .tab {
+      overflow: hidden;
+      border: 1px solid #ccc;
+      background-color: #f1f1f1;
+      padding: 1px;
+    }
+
+    a {
+      color: navy;
+    }
+
+    .tab button {
+      background-color: inherit;
+      float: left;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      padding: 12px 14px;
+      transition: 0.3s;
+    }
+
+    .tab button:hover {
+      background-color: #ddd;
+    }
+
+    .tab button.active {
+      background-color: #ccc;
+    }
+
+    .tabcontent {
+      display: none;
+      padding: 6px 12px;
+      border: 1px solid #ccc;
+      border-top: none;
+    }
+  </style>
+</head>
+
+<body>
+
+
+
+  <!-- Tab links -->
+  <div class="tab">
+    <button class="tablinks" onclick="switchView(event, 'step-one')" id="defaultOpen">1</button>
+    <button class="tablinks" onclick="switchView(event, 'step-two')">2</button>
+    <button class="tablinks" onclick="switchView(event, 'step-three')">3</button>
+    <button class="tablinks" onclick="switchView(event, 'step-four')">4</button>
+    <button class="tablinks" onclick="switchView(event, 'step-five')">5</button>
+    <button class="tablinks" onclick="switchView(event, 'step-six')">6</button>
+    <button class="tablinks" onclick="google.script.host.close()">Close</button>
+  </div>
+
+
+
+  <!-- Tab content -->
+  <div id="step-one" class="tabcontent">
+    <h1>How to use this spreadsheet</h1>
+    <h2>Created by Court Cox for the Miami Herald</h2>
+    <h3>If you have not already made your own copy of this spreadsheet, do so now. Don't work from the original spreadsheet.</h3>
+    <p>This walkthrough explains the minimal amount you need to know to create housing affordability graphics for your
+      county of interest. <br><br>
+      For a more in depth explanation of how and why this works, please see the README file on the
+      Github repository <a href="https://github.com/MiamiHerald/affordability-dashboard">here</a>.</p>
+    <p>What you will need:</p>
+    <ul>
+      <li>A Datawrapper account</li>
+      <li>Your Datawrapper access token</li>
+    </ul>
+
+    <p>Charts you'll get (open links for examples):</p>
+    <ul>
+      <li><a href="https://www.datawrapper.de/_/jKuws/">How does this county compare to the rest of the state?</a></li>
+      <li><a href="https://www.datawrapper.de/_/jcQ2y/">County overview: info table</a></li>
+      <li><a href="https://www.datawrapper.de/_/01gCe/">Number of homes on the market on a typical day</a></li>
+      <li><a href="https://www.datawrapper.de/_/nxHaq/">Typical Cost of Rent from Beginning to End of Year</a></li>
+      <li><a href="https://www.datawrapper.de/_/HF3gQ/">Home Value Percent Change since January 2020</a></li>
+    </ul>
+    <p>Quick note: don't change any of the sheet names on this spreadsheet, or the script may not function as
+      expected.<br>Now move onto step 2 (tab above).</p>
+    </p>
+  </div>
+
+  <div id="step-two" class="tabcontent">
+    <h3>Duplicate the chart templates</h3>
+    <p>Click each of the following links, then duplicate the charts. Write down the five-character chart ID for each new
+      chart. You can find this is in step 4 (publish/embed) at the end of the sharing link. For example, if the sharing
+      link is "https://www.datawrapper.de/_/nxHaq/," the chart ID is "nxHaq." You will need the chart IDs in the
+      following steps.</p>
+    <p>Duplicate charts:</p>
+    <ul>
+      <li><a href="https://app.datawrapper.de/river/_/jcQ2y">Overview table</a></li>
+      <li><a href="https://app.datawrapper.de/river/_/nxHaq">Typical cost of rent from beginning to end of each year</a>
+      </li>
+      <li><a href="https://app.datawrapper.de/river/_/jkuws">How did this county compare?</a></li>
+      <li><a href="https://app.datawrapper.de/river/_/01gCe">Number of Homes on the Market on a Typical Day</a></li>
+      <li><a href="https://app.datawrapper.de/river/_/HF3gQ">Home Value Percent Change Since 2020</a></li>
+
+
+    </ul>
+  </div>
+
+  <div id="step-three" class="tabcontent">
+    <h3>Set up the script to work with your Datawrapper charts</h3>
+    <p>In order to keep the timestamps and other metadata updated on the charts, we're going to use the Datawrapper API.
+      This is already set up for you, but in order to make it run through your own account, there are a few steps.</p>
+    <ol>
+      <li>Generate a Datawrapper ID. <a href="https://developer.datawrapper.de/docs/getting-started">This article</a>
+        will walk you through the steps. You can choose which permissions to give the token, but know that for our
+        purposes, at minimum, you must select "read" and "write" for Chart, and you must select "read" for
+        Visualization.</li>
+      <li>On this spreadsheet, click Extensions (next to Tools in the same row as File). Then click Apps Script. This
+        should open a script in a new tab.</li>
+      <li>On the Apps Script page, you should be on Code.gs (under Files on the lefthand side). If not, navigate to
+        Code.gs.</li>
+      <li>Click run, and give the script the permissions it requests.</li>
+      <li>Now navigate to dw-update.gs under Files.</li>
+      <li>On line 4, replace YOUR_TOKEN_HERE with the Datawrapper token you just generated. The token should stay inside
+        the quotation marks.</li>
+      <li>Between lines 18-24, you will see a list of chart IDs. Replace the chart IDs with the corresponding IDs you
+        wrote down for each of your charts. This is how the script will know which charts it's updating.</li>
+    </ol>
+  </div>
+
+  <div id="step-four" class="tabcontent">
+    <h3>Select your county of interest</h3>
+    <p>Follow these instructions carefully.</p>
+    <ul>
+      <li>Right now, you should be looking at a sheet tab called "this-spreadsheet." (Look in the lower lefthand corner
+        of the screen to double check.)</li>
+      <li style='background-color: #ffe599'>You'll select from a dropdown menu for the yellow cells.</li>
+      <li style='background-color: #e6b8af'>Don't change the red cells.</li>
+      <li style='background-color: #d9ead3'>You'll manually type into the green cells.</li>
+    </ul>
+    <ul>
+      <li>B2: select the county of interest from the drop down menu.</li>
+
+      <li>B3: select the state in which that county is located.</li>
+
+      <li>B5: select the county of interest again. The spelling and capitalization are intentionally different,
+        but this should be the same county you selected for B2.</li>
+
+      <li>If you cannot find the county again in B5, rent data is not available for this county. Leave the cell blank.
+      </li>
+
+      <li>After you've selected the county in B5, the correct state abbreviation should populate in B6. If it is not
+        correct, there may be multiple counties with the same name. In this case, re-select the county in B5. Try
+        different ones until the state in B6 is correct.</li>
+
+      <li>C2: type the way you want the county referred to in the graphics. For example, if B2 is "miami-dade,
+        fl," you may want to use "Miami-Dade County" on first reference, or you may want to use "South Florida." This is
+        up to you.</li>
+
+      <li>D2: type the format for second reference. For example, second reference for "miami-dade, fl" may be
+        "Miami." Second reference is used minimally in the graphics. You can put the same thing for second reference as
+        you did for first reference if you don't want a different second reference. Don't, however, leave either cell
+        (C2 or D2) blank.</li>
+    </ul>
+    </p>
+  </div>
+
+  <div id="step-five" class="tabcontent">
+    <h3>Set a time trigger</h3>
+    <p>Go back to the Apps Script page, or re-open it if you closed it. (Extensions > Apps Script)</p>
+    <ol>
+      <li>On the lefthand side of the screen, you should see five icons. Click the clock.</li>
+      <li>Set a time-driven trigger for however often you want your charts to check for new data and update.</li>
+    </ol>
+  </div>
+
+  <div id="step-six" class="tabcontent">
+    <h3>Questions? Problems?</h3>
+    <p>Email me at ccox@mcclatchydc.com or contact me on Twitter <a href="https://twitter.com/mapcourt">@mapcourt</a></p>
+    <p>developer TODO: reconsider email thing or be sure to update if I lose access to that email, etc</p>
+  </div>
+
+  <script>
+    document.getElementById("defaultOpen").click(); 
+
+  function switchView(evt, stepNum) {
+  // Declare all variables
+  let i, tabcontent, tablinks;
+
+  // Get all elements with class="tabcontent" and hide them
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+
+  // Get all elements with class="tablinks" and remove the class "active"
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+
+  // Show the current tab, and add an "active" class to the button that opened the tab
+  document.getElementById(stepNum).style.display = "block";
+  evt.currentTarget.className += " active";
+} 
+
+
+
+  </script>
+
+</body>
+
+</html>
